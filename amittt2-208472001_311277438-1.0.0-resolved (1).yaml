@@ -1,0 +1,774 @@
+---
+openapi: 3.0.0
+info:
+  title: ex 3.1
+  description: API for soccer system games
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/amittt2/208472001_311277438/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/unn/208472001_311277438/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/unn/ex3/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: Auth
+- name: Favorite games
+- name: Search
+- name: Profile
+- name: Games
+- name: AddToFavorites
+- name: AddToLeague
+- name: League
+- name: group page
+- name: PersonalPage
+paths:
+  /register:
+    post:
+      tags:
+      - Auth
+      summary: A new user from client is added to the server.
+      description: A JSON object contains all the details about the user.
+      requestBody:
+        description: Inventory item to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/register'
+        required: true
+      responses:
+        "201":
+          description: A new user has been added
+        "400":
+          description: Wrong input parameters
+  /login:
+    post:
+      tags:
+      - Auth
+      summary: A user from client is login to website
+      description: a JSON object contains username and password about the user
+      requestBody:
+        description: Inventory item to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login'
+        required: true
+      responses:
+        "200":
+          description: A new user has been added
+        "400":
+          description: Wrong input parameters
+  /favoritesGames/{userId}:
+    get:
+      tags:
+      - Favorite games
+      summary: Get favorite games by userId
+      description: Get array of game objects of specific user
+      parameters:
+      - name: userId
+        in: path
+        description: id of specific user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Data of games of specific user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/favoritesGames'
+        "400":
+          description: Wrong input parameters
+  /league/{leagueId}:
+    get:
+      tags:
+      - League
+      summary: Get league deails
+      description: Get Superliga, Season, Stage, Next Game
+      parameters:
+      - name: leagueId
+        in: path
+        description: id of league
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Data of the league
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/league'
+        "400":
+          description: Wrong input parameters
+  /teamPage/{groupId}:
+    get:
+      tags:
+      - group page
+      summary: Get the page of the group
+      description: Get details page of the group
+      parameters:
+      - name: groupId
+        in: path
+        description: id of the group
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: the page deatils of the group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/teamPage'
+        "400":
+          description: Wrong input parameters
+  /personalPage/{playerid}:
+    get:
+      tags:
+      - PersonalPage
+      summary: Get player personal page
+      description: Get another data on player
+      parameters:
+      - name: playerid
+        in: path
+        description: playerid for presenting personal page
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Personal page of player
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/playerPersonalPage'
+        "400":
+          description: Wrong input parameters
+  /personalPage/{coachid}:
+    get:
+      tags:
+      - PersonalPage
+      summary: Get coach personal page
+      description: Get another data on coach
+      parameters:
+      - name: coachid
+        in: path
+        description: coachid for presenting personal page
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Personal page of coach
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coachPersonalPage'
+        "400":
+          description: Wrong input parameters
+  /players:
+    get:
+      tags:
+      - Search
+      summary: Get all data of players
+      description: Get arrays of playes
+      responses:
+        "200":
+          description: Data of players
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchplayers'
+        "400":
+          description: Wrong input parameters
+  /choaches:
+    get:
+      tags:
+      - Search
+      summary: Get all data of choaches
+      description: Get arrays of choaches
+      responses:
+        "200":
+          description: Data of coaches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchcoachers'
+        "400":
+          description: Wrong input parameters
+  /teams:
+    get:
+      tags:
+      - Search
+      summary: Get all data of teams
+      description: Get arrays of teams
+      responses:
+        "200":
+          description: Data of teams
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/searchteams'
+        "400":
+          description: Wrong input parameters
+  /futureGames:
+    get:
+      tags:
+      - Games
+      summary: Get all data of future games
+      description: Get arrays of future games
+      responses:
+        "200":
+          description: Data of future games
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/futureGames'
+        "400":
+          description: Wrong input parameters
+  /pastGames:
+    get:
+      tags:
+      - Games
+      summary: Get all data of past games
+      description: Get arrays of past games
+      responses:
+        "200":
+          description: Data of past games
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pastGames'
+        "400":
+          description: Wrong input parameters
+  /addPlayer:
+    post:
+      tags:
+      - AddToFavorites
+      summary: A user from client is add player to favorites
+      description: a JSON object contains playerId to add to favorites
+      requestBody:
+        description: Inventory player to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/playerdata'
+        required: true
+      responses:
+        "200":
+          description: A new player has been added to favorites
+        "400":
+          description: Wrong input parameters
+  /addCoach:
+    post:
+      tags:
+      - AddToFavorites
+      summary: A user from client is add coach to favorites
+      description: a JSON object contains coachId to add to favorites
+      requestBody:
+        description: Inventory coach to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/coachdata'
+        required: true
+      responses:
+        "200":
+          description: A new coach has been added to favorites
+        "400":
+          description: Wrong input parameters
+  /addGame:
+    post:
+      tags:
+      - AddToFavorites
+      summary: A user from client is add game to favorites
+      description: a JSON object contains gameId to add to favorites
+      requestBody:
+        description: Inventory item to game
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/gamedata'
+        required: true
+      responses:
+        "200":
+          description: A new game has been added to favorites
+        "400":
+          description: Wrong input parameters
+  /addGamesToLeague:
+    post:
+      tags:
+      - AddGameToLeague
+      summary: A union manager from client is add game to league
+      description: a JSON object contains gameId to add to league
+      requestBody:
+        description: Inventory item to game
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/newgamedata'
+        required: true
+      responses:
+        "200":
+          description: A new game has been added to league
+        "400":
+          description: Wrong input parameters
+components:
+  schemas:
+    register:
+      type: object
+      properties:
+        username:
+          maxLength: 8
+          minLength: 3
+          type: string
+          description: username contains between 3 to 8 letters only
+          example: amit
+        firstname:
+          type: string
+          description: user's first name
+          example: Amit
+        lastname:
+          type: string
+          description: user's last name
+          example: Yosefi
+        country:
+          type: string
+          description: user's country
+          example: Israel
+        password:
+          maxLength: 10
+          minLength: 5
+          type: string
+          description: user's password contains between 5 to 10 letters only
+          format: password
+          example: "1234"
+        email:
+          type: string
+          description: user's email
+          format: email
+          example: amit@gmail.com
+        image-url:
+          type: string
+          description: user's image
+          format: URL
+          example: https://cloudinary.com/amit
+      description: Model containing user info
+    login:
+      type: object
+      properties:
+        username:
+          maxLength: 8
+          minLength: 3
+          type: string
+          description: username contains between 3 to 8 letters only
+          example: amit
+        password:
+          maxLength: 10
+          minLength: 5
+          type: string
+          description: user's password contains between 5 to 10 letters only
+          format: password
+          example: "1234"
+      description: Model containing user login info
+    favoritesGames:
+      maxItems: 3
+      minItems: 0
+      type: array
+      description: Model containing game info
+      items:
+        $ref: '#/components/schemas/favoritesGames_inner'
+    playerPersonalPage:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Cristiano Ronaldo
+        team:
+          type: string
+          example: Juventus
+        picture:
+          type: string
+          format: URL
+          example: https://cloudinary.com/cristianoronaldo
+        position:
+          type: string
+          example: Forward
+        commonName:
+          type: string
+          example: Ronaldo
+        nation:
+          type: string
+          example: Portugal
+        date:
+          type: string
+          example: 1/1/1990
+        country:
+          type: string
+          example: Portugal
+        high:
+          type: integer
+          example: 180
+        weight:
+          type: integer
+          example: 80
+      description: Contains player personal page details
+    coachPersonalPage:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Pep
+        team:
+          type: string
+          example: Manchester City
+        picture:
+          type: string
+          format: URL
+          example: https://cloudinary.com/pep
+        commonName:
+          type: string
+          example: Pep
+        nation:
+          type: string
+          example: Spaim
+        date:
+          type: string
+          example: 1/1/1980
+        country:
+          type: string
+          example: Spain
+      description: Contains coach personal page details
+    teamPage:
+      type: object
+      properties:
+        players:
+          type: string
+          description: the names of the group players
+          example: Juventus
+        images:
+          type: string
+          description: the images of the group players
+          format: URL
+          example: https://cloudinary.com/juventus
+        coach:
+          type: string
+          description: the coach of the group
+          example: Pep
+        pastGames:
+          type: array
+          items:
+            $ref: '#/components/schemas/teamPage_pastGames'
+      description: Contains group page details
+    searchplayers:
+      type: array
+      description: return array of all players
+      items:
+        $ref: '#/components/schemas/searchplayers_inner'
+    searchcoachers:
+      type: array
+      description: return array of all coachers
+      items:
+        $ref: '#/components/schemas/searchcoachers_inner'
+    searchteams:
+      type: array
+      description: return array of all teams
+      items:
+        $ref: '#/components/schemas/searchteams_inner'
+    playerdata:
+      type: object
+      properties:
+        name:
+          type: string
+          description: player name
+          example: Ronaldo
+        team:
+          type: string
+          description: player teams name
+          example: Juventus
+        picture:
+          type: string
+          description: player image
+          format: URL
+          example: https:cloudinary.com/ronaldo
+        position:
+          type: string
+          description: player position in the field
+          example: forward
+      description: Contains data on player
+    coachdata:
+      type: object
+      properties:
+        name:
+          type: string
+          description: coach name
+          example: Pep
+        team:
+          type: string
+          description: coach teams name
+          example: juventus
+        picture:
+          type: string
+          description: coach image
+          format: URL
+          example: https://cloudinary.com/juventus
+      description: Contains data on coach
+    gamedata:
+      type: object
+      properties:
+        date:
+          type: string
+          description: date
+          example: 4/4/2021
+        time:
+          type: string
+          description: time
+          example: "1230"
+        hometeam:
+          type: string
+          description: home team
+          example: Hapoel
+        awayteam:
+          type: string
+          description: away team
+          example: Maccabi
+        field:
+          type: string
+          description: field
+          example: Bloomfield
+      description: Contains data on future games
+    futureGames:
+      type: array
+      items:
+        $ref: '#/components/schemas/futureGames_inner'
+    pastGames:
+      type: array
+      items:
+        $ref: '#/components/schemas/pastGames_inner'
+    newgamedata:
+      type: object
+      properties:
+        date:
+          type: string
+          description: date
+          example: 3/4/2021
+        time:
+          type: string
+          description: time
+          example: "1170"
+        hometeam:
+          type: string
+          description: home team
+          example: Barcelona
+        awayteam:
+          type: string
+          description: away team
+          example: Real Madrid
+        field:
+          type: string
+          description: field
+          example: Bloomfield
+        score:
+          type: string
+          description: score
+          example: 1-1
+        events:
+          $ref: '#/components/schemas/newgamedata_events'
+      description: Contains data on new game
+    league:
+      type: object
+      properties:
+        Superliga:
+          type: string
+          example: Priemer league
+        Season:
+          type: string
+          example: 2020/20201
+        Stage:
+          type: string
+          example: top
+        NextGame:
+          type: string
+          example: "3245"
+      description: Contains data on league
+    favoritesGames_inner:
+      type: object
+      properties:
+        hometeam:
+          type: string
+          example: Hapoel
+        awayteam:
+          type: string
+          example: Maccabi
+        date:
+          type: string
+          example: 15/5/21
+        score:
+          type: string
+          example: 5-0
+    teamPage_time:
+      type: object
+      properties:
+        date:
+          type: string
+          description: date
+          example: 3/3/2020
+        time:
+          type: string
+          description: time
+          example: "1200"
+        minute:
+          type: string
+          description: the minute of the game
+          example: "60"
+        event:
+          type: string
+          description: the event in the game
+          example: yellow card
+      description: Contains events on the game
+      example: "70"
+    teamPage_pastGames:
+      type: object
+      properties:
+        score:
+          type: string
+          description: score game
+          example: 2-1
+        time:
+          $ref: '#/components/schemas/teamPage_time'
+      description: Contains data on past games
+    searchplayers_inner:
+      type: object
+      properties:
+        name:
+          type: string
+          description: player name
+          example: Ronaldo
+        team:
+          type: string
+          description: player teams name
+          example: Juventus
+        picture:
+          type: string
+          description: player image
+          format: URL
+          example: https://cloudinary.com/ronaldo
+        position:
+          type: string
+          example: forward
+    searchcoachers_inner:
+      type: object
+      properties:
+        name:
+          type: string
+          description: coach name
+          example: Pep
+        team:
+          type: string
+          description: coach teams name
+          example: manchester city
+        picture:
+          type: string
+          description: coach image
+          format: URL
+          example: https://cloudinary.com/pep
+    searchteams_inner:
+      type: object
+      properties:
+        name:
+          type: string
+          description: player name
+          example: juventus
+        logo:
+          type: string
+          description: logo of the team
+          example: https://cloudinary.com/juventus
+    futureGames_inner:
+      type: object
+      properties:
+        date:
+          type: string
+          description: date
+          example: 5/5/2022
+        time:
+          type: string
+          description: time
+          example: "1230"
+        hometeam:
+          type: string
+          description: home team
+          example: Hapoel
+        awayteam:
+          type: string
+          description: away team
+          example: Maccabi
+        field:
+          type: string
+          description: field
+          example: Bloomfield
+      description: Contains data on future games
+    pastGames_inner:
+      type: object
+      properties:
+        score:
+          type: string
+          description: score game
+          example: 5-0
+        time:
+          type: object
+          properties:
+            date:
+              type: string
+              description: date
+              example: 6/6/2021
+            time:
+              type: string
+              description: time
+              example: "1200"
+            minute:
+              type: string
+              description: the minute of the game
+              example: "7"
+            event:
+              type: string
+              description: the event in the game
+              example: goal ronaldo
+          description: Contains events on the game
+          example: 1200
+      description: Contains data on past games
+    newgamedata_events:
+      type: object
+      properties:
+        date:
+          type: string
+          description: date
+          example: 3/4/20201
+        time:
+          type: string
+          description: time
+          example: "1170"
+        minute:
+          type: string
+          description: the minute of the game
+          example: "10"
+        event:
+          type: string
+          description: the event in the game
+          example: goal Messi
+      description: Contains events on the game
